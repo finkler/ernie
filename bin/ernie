@@ -1,0 +1,38 @@
+#!/usr/bin/python3
+import importlib
+import pkgutil
+import sys
+
+import ernie
+from ernie import *
+
+usage = """usage: ernie command
+commands are:
+"""
+rc = {}
+
+
+def fmt(s):
+    tok = s.split('\n')
+    cols = ['\t', '\t\t--- ']
+    r = ''
+    for t in tok:
+        r += cols[r != ''] + t + '\n'
+    return r
+
+
+if __name__ == '__main__':
+    for i, mod, ispkg in pkgutil.iter_modules(ernie.__path__):
+        if not ispkg:
+            m = importlib.import_module('..' + mod, package='ernie.__init__')
+            rc[mod] = m.main
+            usage += fmt(m.__doc__)
+
+    if len(sys.argv) < 2:
+        die(usage)
+
+    sys.argv.pop(0)
+    cmd = sys.argv[0]
+    if cmd not in rc.keys():
+        die(usage)
+    sys.exit(rc[cmd]())
