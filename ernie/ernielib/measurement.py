@@ -29,7 +29,6 @@ class data:
             x = []
             for i in range(self.num_data):
                 s = next(f).split()
-                print(s)
                 arr = [int(n) for n in s[:4]]
                 x.append(arr)
                 self.rhoa[i], self.err[i] = tuple([float(n) for n in s[4:]])
