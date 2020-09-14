@@ -1,20 +1,21 @@
 import sys
 
 flags = {}
-__argv0 = sys.argv.pop(0)
 
 
-def parse():
-    argv = iter(sys.argv)
+def parse(options={}):
+    flags.update(options)
+    argv = iter(sys.argv[1:])
     p = []
     for a in argv:
-        if a.startswith('-'):
+        if a.startswith("-"):
             v = None
-            if '=' in a:
-                k, v = tuple(a.split('=', 2))
+            if "=" in a:
+                k, v = tuple(a.split("=", 1))
             else:
                 k = a
-            k = k[1:]
+            i = 2 if a.startswith("--") else 1
+            k = k[i:]
             if k not in flags.keys():
                 return True
             c = type(flags[k])
