@@ -3,24 +3,21 @@ import numpy as np
 from enum import IntEnum
 
 
-def _guesstype(arr, num, t, row):
-    for i, a in enumerate(array(t, num)):
-        if i == row - 1:
-            if sorted(arr) == sorted(a):
-                return t
-        elif i == row:
-            break
+def _guesstype(arr, num, t):
+    for a in array(t, num):
+        if arr == a:
+            return t
     return -1
 
 
-def guesstype(arr, num, row=2):
-    i = _guesstype(arr, num, atype.WENNER, row)
+def guesstype(arr, num):
+    i = _guesstype(arr, num, atype.WENNER)
     if i > 0:
         return i
-    i = _guesstype(arr, num, atype.SCHLUMBERGER, row)
+    i = _guesstype(arr, num, atype.SCHLUMBERGER)
     if i > 0:
         return i
-    i = _guesstype(arr, num, atype.DIPOLE, row)
+    i = _guesstype(arr, num, atype.DIPOLE)
     if i > 0:
         return i
     return -1
