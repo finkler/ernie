@@ -1,4 +1,4 @@
-"""purge [-i] [-err=number] datafile
+"""purge [-i] [-err=number] [-std=number] datafile
 purge outliers from measurement"""
 import numpy as np
 import sys
@@ -8,7 +8,7 @@ from ernie.ernielib import flag
 
 
 def main():
-    if flag.parse({"err": 0.0, "i": False, "std": 1}):
+    if flag.parse({"err": 0.0, "i": False, "std": 1.0}):
         return -1
 
     err = np.abs(flag.flags["err"])

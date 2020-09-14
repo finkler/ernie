@@ -1,4 +1,4 @@
-"""settopo [-i] [-p=profile|[-o=x,y -elev=grid]] datafile
+"""settopo [-i] [-p=profile|[-o=x1,y1,x2,y2 -elev=grid]] datafile
 set topopgraphy from profile (or elevation grid) for the measurment"""
 import numpy as np
 import sys
