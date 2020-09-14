@@ -6,8 +6,9 @@ import numpy as np
 import sys
 
 from ernie.ernielib import flag
+from pathlib import PurePath
 
-database = "/home/thk32is/docs/resistivity.csv"
+database = PurePath(__file__).parent / "resistivity.csv"
 
 
 def printgui(res, lim):

@@ -1,1 +1,1 @@
-include share/ernie/resistivity.csv
+include ernie/*.csv
