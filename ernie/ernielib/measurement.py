@@ -7,6 +7,8 @@ from ernie.ernielib import ert
 
 class data:
     def __init__(self, name, atype="guess"):
+        if name is None:
+            return
         pat = re.compile("#.*")
         with open(name) as f:
             self.comment = pat.sub("", next(f)).strip()
@@ -29,19 +31,20 @@ class data:
             x = []
             for i in range(self.num_data):
                 s = next(f).split()
-                arr = [int(n) for n in s[:4]]
-                x.append(arr)
+                x.append([int(n) for n in s[:4]])
                 self.rhoa[i], self.err[i] = tuple([float(n) for n in s[4:]])
-                if i == 1 and atype == "guess":
-                    self.atype = ert.guesstype(arr, self.num)
             self.x = np.array(x, dtype=np.int)
             atype = atype.lower()
-            if atype.startswith("w"):
+            if atype == "guess":
+                self.atype = ert.guesstype(self.x, self.num)
+            elif atype.startswith("w"):
                 self.atype = ert.atype.WENNER
             elif atype.startswith("s"):
                 self.atype = ert.atype.SCHLUMBERGER
             elif atype.startswith("d"):
                 self.atype = ert.atype.DIPOLE
+            else:
+                self.atype = ert.atype.UNKNOWN
 
     def __str__(self):
         s = f"#{self.comment}\n"
@@ -65,7 +68,9 @@ class data:
         assert (
             self.atype == other.atype and self.spacing == other.spacing
         ), "illegal operation"
-        d = data()
+        d = data(None)
+        d.atype = self.atype
+        d.spacing = self.spacing
         d.comment = self.comment + " + " + other.comment
         d.num = self.num + other.num - offset
         d.z = np.zeros(d.num)
@@ -103,11 +108,11 @@ class data:
             key = key.tolist()
         elif type(key) != list:
             raise TypeError
-        for i in self.num_data:
+        for i in range(self.num_data):
             a = self.x[i, :].tolist()
-            if sorted(a) == sorted(key):
+            if a == key:
                 return i
-        raise None
+        return None
 
 
 class general(data):

@@ -1,6 +1,6 @@
 import sys
 
-__all__ = ["convert"]
+__all__ = ["concat", "convert", "purge", "settopo", "showres"]
 
 
 def die(s, exit_status=1):

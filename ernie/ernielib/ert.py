@@ -3,10 +3,11 @@ import numpy as np
 from enum import IntEnum
 
 
-def _guesstype(arr, num, t):
-    for a in array(t, num):
-        if arr == a:
-            return t
+def _guesstype(a, num, t):
+    b = np.array(list(iter(array(t, num))))
+    c = np.sort(a) == np.sort(b)
+    if type(c) == np.ndarray and c.all():
+        return t
     return -1
 
 
@@ -31,6 +32,7 @@ class atype(IntEnum):
     WENGAMMA = 5
     POLEDIPOLE = 6
     SCHLUMBERGER = 7
+    UNKNOWN = 99
 
 
 class array:

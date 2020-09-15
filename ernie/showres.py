@@ -11,6 +11,15 @@ from pathlib import PurePath
 database = PurePath(__file__).parent / "resistivity.csv"
 
 
+def usage():
+    sys.stderr.write("""showres [-q=from,to|-ohm=from,to] [-plot] [resfile]
+\t-q:    percentile-range to select corresponding material (default: 25,75)
+\t-ohm:  ohm-range to select corresponding material
+\t-plot: plot graphical representation of resistance materials
+""")
+    sys.exit(1)
+
+
 def printgui(res, lim):
     import matplotlib.pyplot as plt
 
@@ -62,6 +71,8 @@ def main():
     if flag.parse({"plot": False, "q": "25,75", "ohm": ""}):
         return -1
 
+    if len(sys.argv) == 2 and sys.argv[1] == "help":
+        usage()
     if flag.flags["ohm"]:
         i = [float(n) for n in flag.flags["ohm"].split(",")]
     else:
