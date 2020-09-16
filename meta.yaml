@@ -1,0 +1,31 @@
+{% set name = "ernie" %}
+{% set version = "0.1.0" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: https://github.com/finkler/{{ name }}/zipball/master/
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ingore-installed -vv "
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+
+test:
+  imports:
+    - ernie
+
+about:
+  home: https://github.com/finkler/ernie
+  license: MIT
+  license_family: MIT
+  summary: ernie for BERT
+

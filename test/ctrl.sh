@@ -1,13 +1,14 @@
 #!/bin/bash
 case "$1" in
   clean)
-    rm -r build/ dist/ ernie.egg-info/
+    rm -rf build/ dist/ ernie.egg-info/
+    find . -name __pycache__ -prune -exec rm -r {} \;
     ;;
   make)
     python3 setup.py sdist bdist_wheel
     ;;
   purge)
-    rm -r .venv/
+    rm -rf .venv/
     ;;
   upload)
     python3 -m twine upload --repository testpypi dist/*
