@@ -6,7 +6,9 @@ package:
   version: "{{ version }}"
 
 source:
-  url: https://github.com/finkler/{{ name }}/zipball/master/
+  git_url: https://github.com/finkler/{{ name }}.git
+  git_rev: master
+  git_depth: 1
 
 build:
   number: 0
