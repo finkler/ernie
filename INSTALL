@@ -1,0 +1,23 @@
+#!/bin/bash
+case "$1" in
+  clean)
+    rm -r build/ dist/ ernie.egg-info/
+    ;;
+  make)
+    python3 setup.py sdist bdist_wheel
+    ;;
+  purge)
+    rm -r .venv/
+    ;;
+  upload)
+    python3 -m twine upload --repository testpypi dist/*
+    ;;
+  venv)
+    python3 -m venv .venv/
+    ;;
+  *)
+    source .venv/bin/activate
+    pip install --upgrade .
+    deactivate
+esac
+
