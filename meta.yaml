@@ -12,7 +12,7 @@ source:
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ingore-installed -vv "
+  script: "{{ PYTHON }} -m pip install . --no-deps -vv "
   noarch: python
   include_recipe: False
 
