@@ -5,7 +5,6 @@ import sys
 
 from ernie.ernielib.measurement import data
 from ernie.ernielib import flag
-from ernie.ernielib import raster
 
 
 def usage():
@@ -13,7 +12,7 @@ def usage():
         """settopo [-i] -p=profile datafile
 settopo [-i] -l=x1,y1,x2,y2 -elev=grid datafile
 \t-i:    inplace edit, i.e., overwrite original datafile
-\t-p:    comma separated profile description (x, z)
+\t-p:    comma separated file with profile description (x, z)
 \t-l:    start and end point of profile line for the elveation grid
 \t-elev: elevation grid used to defer heights of the measurements
 """
@@ -22,6 +21,8 @@ settopo [-i] -l=x1,y1,x2,y2 -elev=grid datafile
 
 
 def setfromgrid(df, seg, name):
+    from ernie.ernielib import raster
+
     x = np.array(seg).reshape((2, 2))
     df.z = raster.extract(df.num, df.spacing, name, x)
 
