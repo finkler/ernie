@@ -5,21 +5,25 @@ import sys
 
 from ernie.ernielib.measurement import data
 from ernie.ernielib import flag
+from ernie.ernielib import raster
 
 
 def usage():
-    sys.stderr.write("""settopo [-i] -p=profile datafile
+    sys.stderr.write(
+        """settopo [-i] -p=profile datafile
 settopo [-i] -l=x1,y1,x2,y2 -elev=grid datafile
 \t-i:    inplace edit, i.e., overwrite original datafile
 \t-p:    comma separated profile description (x, z)
 \t-l:    start and end point of profile line for the elveation grid
 \t-elev: elevation grid used to defer heights of the measurements
-""")
+"""
+    )
     sys.exit(1)
 
 
-def setfromgrid(df, origin, name):
-    pass
+def setfromgrid(df, seg, name):
+    x = np.array(seg).reshape((2, 2))
+    df.z = raster.extract(df.num, df.spacing, name, x)
 
 
 def setfromprofile(df, name):
@@ -36,13 +40,13 @@ def main():
     cond2 = flag.flags["elev"] + flag.flags["l"]
     if len(sys.argv) == 2 and sys.argv[1] == "help" or not (cond1 or cond2):
         usage()
-    assert len(sys.argv) < 2, "missing datafile"
+    assert len(sys.argv) > 1, "missing datafile"
     df = data(sys.argv[1])
     if flag.flags["p"]:
         setfromprofile(df, flag.flags["p"])
     else:
-        o = tuple([float(n) for n in flag.flags["l"].split(",")])
-        setfromgrid(df, o, flag.flags["elev"])
+        seg = [float(n) for n in flag.flags["l"].split(",")]
+        setfromgrid(df, seg, flag.flags["elev"])
 
     if flag.flags["i"]:
         with (open(sys.argv[1]), "w") as f:

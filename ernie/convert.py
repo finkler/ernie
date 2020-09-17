@@ -19,7 +19,7 @@ def main():
 
     if len(sys.argv) == 2 and sys.argv[1] == "help":
         usage()
-    assert len(sys.argv) < 2, "missing datafile"
+    assert len(sys.argv) > 1, "missing datafile"
     df = general(sys.argv[1]) if flag.flags["g"] else geolog(sys.argv[1])
     print(df)
     return 0

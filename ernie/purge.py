@@ -22,7 +22,7 @@ def main():
 
     if len(sys.argv) == 2 and sys.argv[1] == "help":
         usage()
-    assert len(sys.argv) < 2, "missing datafile"
+    assert len(sys.argv) > 1, "missing datafile"
     df = data(sys.argv[1])
     sd = df.rhoa.std() * flag.flags["std"]
     m = df.rhoa.mean()
